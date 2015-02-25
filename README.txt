@@ -2,4 +2,4 @@
 
 
 /**
-	Barrowing the Roots Wordpress Framework basic idea
+	Borrowing the Roots Wordpress Framework basic idea

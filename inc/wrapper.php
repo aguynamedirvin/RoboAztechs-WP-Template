@@ -1,54 +1,9 @@
 <?php
 
-/*# License: Public Domain
-# I recommend replacing 'roboaztechs_' with your own prefix.
-
-function roboaztechs_template_path() {
-	return roboaztechs_Wrapping::$main_template;
-}
-
-function roboaztechs_template_base() {
-	return roboaztechs_Wrapping::$base;
-}
-
-
-class roboaztechs_Wrapping {
-
-	/**
-	 * Stores the full path to the main template file
-	 */
-/*	static $main_template;
-
-	/**
-	 * Stores the base name of the template file; e.g. 'page' for 'page.php' etc.
-	 */
-/*	static $base;
-
-	static function wrap( $template ) {
-		self::$main_template = $template;
-
-		self::$base = substr( basename( self::$main_template ), 0, -4 );
-
-		if ( 'index' == self::$base )
-			self::$base = false;
-
-		$templates = array( 'wrapper.php' );
-
-		if ( self::$base )
-			array_unshift( $templates, sprintf( 'wrapper-%s.php', self::$base ) );
-
-		return locate_template( $templates );
-	}
-}
-
-add_filter( 'template_include', array( 'roboaztechs_Wrapping', 'wrap' ), 99 );*/
-
-
-
-
 /**
 * Theme wrapper
 *
+* All credits go to Roots
 * @link http://roots.io/an-introduction-to-the-roots-theme-wrapper/
 * @link http://scribu.net/wordpress/theme-wrappers.html
 */
@@ -76,7 +31,7 @@ class roboaztechs_Wrapping {
 			}
 	}
 	public function __toString() {
-		$this->templates = apply_filters('roots/wrap_' . $this->slug, $this->templates);
+		$this->templates = apply_filters('roboaztechs/wrap_' . $this->slug, $this->templates);
 		return locate_template($this->templates);
 	}
 	static function wrap($main) {

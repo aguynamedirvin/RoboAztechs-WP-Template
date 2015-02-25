@@ -17,6 +17,9 @@ if ( ! function_exists( 'roboaztechs_setup' ) ) :
 		 */
 		add_theme_support( 'title-tag' );
 
+		// ----not sure what this shit function is for but it's needed
+		add_editor_style();
+
 		/**
 		 * SUPPORT FOR THUMMNAILS & CUSTOM IMAGES
 		 */
@@ -46,6 +49,25 @@ if ( ! function_exists( 'roboaztechs_setup' ) ) :
 
 endif; // roboaztechs_setup
 add_action( 'after_setup_theme', 'roboaztechs_setup' );
+
+/**
+ * IMPORT NECESSARY FILES
+ */
+$roboaztechs_includes = array (
+	'inc/widgets.php',		// Custom theme widgets
+	'inc/wrapper.php',		// Theme wrapper
+	'inc/sidebar.php',		// Chosee where sidebar is displayed
+	'inc/comments.php'		// Comment template
+);
+
+foreach ($roboaztechs_includes as $file) {
+	if (!$filepath = locate_template($file)) {
+		trigger_error(sprintf(__('Error locating %s for inclusion', 'roboaztechs'), $file), E_USER_ERROR);
+	}
+	require_once $filepath;
+}
+unset($file, $filepath);
+
 
 
 /**
@@ -103,6 +125,10 @@ function roboaztechs_scripts() {
 	// Load our main stylesheet.
 	wp_enqueue_style( 'roboaztechs-style', get_stylesheet_uri(), array(), null );
 
+	wp_deregister_script('jquery');
+	wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js', array(), '1.11.2');
+	add_filter('script_loader_src', 'roboaztechs_jquery_local_fallback', 10, 2);
+
 	// Load our Google fonts.
 	wp_enqueue_style( 'google-fonts', roboaztechs_fonts(), array(), null );
 
@@ -112,55 +138,22 @@ function roboaztechs_scripts() {
 	// Load our script for the navigation menu
 	wp_enqueue_script( 'navigation', get_template_directory_uri() . '/js/navigation.js', array('jquery'), null, true );
 }
-add_action('template_redirect', 'roboaztechs_scripts');
+add_action('wp_enqueue_scripts', 'roboaztechs_scripts', 100);
+//add_action('template_redirect', 'roboaztechs_scripts');
 
-/**
- * CUSTOM COMMENTS
- */
-function roboaztechs_comments( $comment, $args, $depth ) {
-	$GLOBALS['comment'] = $comment;
-
-	?>
-	<div <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
-
-		<a class="avatar" href="">
-			<?php if ( $args['avatar_size'] != 0 ) echo get_avatar( $comment, $args['avatar_size'] ); ?>
-		</a>
-		
-		<article id="comment-<?php comment_ID(); ?>" class="comment-content">
-
-			<a href="" class="author"><?php comment_author(); ?></a>
-
-			<div class="metadata">
-				<span class="date"><?php comment_date('F j, Y \a\t g:i a '); ?></span>
-			</div>
-
-			<div class="text"><?php comment_text(); ?></div>
-
-			<div class="actions">
-					<a class="reply" href="#"><?php comment_reply_link( array_merge( $args, array( 'reply_text' => __( 'Reply', 'roboaztechs' ), 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?></a>
-			</div>
-		</article>
-	</div>
-<?php
-} //roboaztechs_comments
-
-
-/**
- * IMPORT FILES
- */
-$roboaztechs_includes = array (
-	'inc/widgets.php',		// Custom theme widgets
-	'inc/wrapper.php',		// Theme wrapper
-	'inc/sidebar.php',		// Chosee where sidebar is displayed
-);
-foreach ($roboaztechs_includes as $file) {
-  if (!$filepath = locate_template($file)) {
-    trigger_error(sprintf(__('Error locating %s for inclusion', 'roboaztechs'), $file), E_USER_ERROR);
+// http://wordpress.stackexchange.com/a/12450
+function roboaztechs_jquery_local_fallback($src, $handle = null) {
+  static $add_jquery_fallback = false;
+  if ($add_jquery_fallback) {
+    echo '<script>window.jQuery || document.write(\'<script src="/wp-includes/js/jquery/jquery.js"><\/script>\')</script>' . "\n";
+    $add_jquery_fallback = false;
   }
-  require_once $filepath;
+  if ($handle === 'jquery') {
+    $add_jquery_fallback = true;
+  }
+  return $src;
 }
-unset($file, $filepath);
+add_action('wp_head', 'roboaztechs_jquery_local_fallback');
 
 /**
  * CLEAN UP WORDPRESS HEAD
