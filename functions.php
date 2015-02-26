@@ -79,16 +79,24 @@ function roboaztechs_widgets() {
 }
 add_action( 'widgets_init', 'roboaztechs_widgets' );
 
+
 /**
  * IMPORT NECESSARY FILES
  */
 $roboaztechs_includes = array (
-	'inc/widgets.php',		// Custom theme widgets
 	'inc/wrapper.php',		// Theme wrapper
+	'inc/widgets.php',		// Custom theme widgets
 	'inc/sidebar.php',		// Choose where sidebar is displayed
 	'inc/comments.php'		// Comment template
 );
 
+
+/**
+ * ADD SUPPORT FOR SOIL
+ */
+add_theme_support('soil-clean-up');			// Enable clean up from Soil
+add_theme_support('soil-relative-urls');	// Enable relative URLs from Soil
+add_theme_support('soil-nice-search');		// Enable nice search from Soil
 
 
 foreach ($roboaztechs_includes as $file) {
