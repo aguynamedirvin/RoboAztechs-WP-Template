@@ -32,7 +32,7 @@
 	
 	<!-- Navigation -->
 	<nav id="site-navigation" role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
-		<div class="logo" itemtype="http://schema.org/Organization"></div>
+		<div class="logo" itemtype="http://schema.org/Organization"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"></a></div>
 		<?php
 			wp_nav_menu (
 			array (

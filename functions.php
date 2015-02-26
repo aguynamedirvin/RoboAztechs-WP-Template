@@ -1,7 +1,7 @@
 <?php 
 
 if ( ! isset( $content_width ) ) {
-	$content_width = 1120;
+	$content_width = 733;
 }
 
 
