@@ -1,5 +1,10 @@
 <?php 
 
+
+/**
+ * $content_width is a global variable used by WordPress for max image upload sizes
+ * and media embeds (in pixels).
+ */
 if ( ! isset( $content_width ) ) {
 	$content_width = 733;
 }
@@ -17,16 +22,6 @@ if ( ! function_exists( 'roboaztechs_setup' ) ) :
 		 */
 		add_theme_support( 'title-tag' );
 
-		// ----not sure what this shit function is for but it's needed
-		add_editor_style();
-
-		/**
-		 * SUPPORT FOR THUMMNAILS & CUSTOM IMAGES
-		 */
-		add_theme_support( 'post-thumbnails' ); 
-		add_image_size( 'article-thumb', 100, 75, true );
-
-
 		/**
 		 * REGISTER NAVIGATION MENUS
 		 */
@@ -38,12 +33,19 @@ if ( ! function_exists( 'roboaztechs_setup' ) ) :
 		);
 
 		/**
+		 * SUPPORT FOR THUMMNAILS & CUSTOM IMAGES
+		 */
+		add_theme_support( 'post-thumbnails' ); 
+		add_image_size( 'article-thumb', 100, 75, true );
+
+		/**
 		 * Switch default core markup for search form, comment form, and comments
 		 *	to output valid HTML5.
 		 */
-		add_theme_support( 'html5', array(
-			'search-form', 'comment-form', 'comment-list', 'gallery', 'caption'
-		) );
+		add_theme_support( 'html5', ['search-form', 'comment-form', 'comment-list', 'gallery', 'caption'] );
+
+		// ----not sure what this shit function is for but it's needed
+		add_editor_style();
 
 	}
 
@@ -51,27 +53,7 @@ endif; // roboaztechs_setup
 add_action( 'after_setup_theme', 'roboaztechs_setup' );
 
 /**
- * IMPORT NECESSARY FILES
- */
-$roboaztechs_includes = array (
-	'inc/widgets.php',		// Custom theme widgets
-	'inc/wrapper.php',		// Theme wrapper
-	'inc/sidebar.php',		// Chosee where sidebar is displayed
-	'inc/comments.php'		// Comment template
-);
-
-foreach ($roboaztechs_includes as $file) {
-	if (!$filepath = locate_template($file)) {
-		trigger_error(sprintf(__('Error locating %s for inclusion', 'roboaztechs'), $file), E_USER_ERROR);
-	}
-	require_once $filepath;
-}
-unset($file, $filepath);
-
-
-
-/**
- * REGISTER SIDEBARS AND WIDGETIZED AREAS
+ * REGISTER SIDEBARS / WIDGETIZED AREAS
  */
 function roboaztechs_widgets() {
 	register_sidebar( array(
@@ -96,6 +78,28 @@ function roboaztechs_widgets() {
 
 }
 add_action( 'widgets_init', 'roboaztechs_widgets' );
+
+/**
+ * IMPORT NECESSARY FILES
+ */
+$roboaztechs_includes = array (
+	'inc/widgets.php',		// Custom theme widgets
+	'inc/wrapper.php',		// Theme wrapper
+	'inc/sidebar.php',		// Choose where sidebar is displayed
+	'inc/comments.php'		// Comment template
+);
+
+
+
+foreach ($roboaztechs_includes as $file) {
+	if (!$filepath = locate_template($file)) {
+		trigger_error(sprintf(__('Error locating %s for inclusion', 'roboaztechs'), $file), E_USER_ERROR);
+	}
+	require_once $filepath;
+}
+unset($file, $filepath);
+
+
 
 /**
  * REGISTER GOOGLE FONTS
