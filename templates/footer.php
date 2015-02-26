@@ -24,8 +24,7 @@
 						array (
 							'theme_location'	=> 'footer-nav',
 							'container'			=> false,
-							'fallback_cb'		=> false,
-							'depth'				=> -1
+							'fallback_cb'		=> false
 							)
 						);
 					?>

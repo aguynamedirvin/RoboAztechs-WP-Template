@@ -45,7 +45,6 @@ body {
 }
 
 img {
-  height: auto;
   max-width: 100%;
 }
 
@@ -210,11 +209,6 @@ blockquote, q, .team-member-role, .author-role, .comment .metadata {
     top: -12px;
     width: 340px;
     z-index: 2;
-  }
-  .logo a {
-    display: block;
-    height: 100%;
-    width: 100%;
   }
 }
 /*  Buttons */
@@ -907,19 +901,18 @@ label > .label-body {
 
 /** Author About Box */
 .author-info {
-  border-top: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
   display: block;
   margin-bottom: 40px;
   overflow: hidden;
-  padding: 30px 0 20px;
+  padding-bottom: 20px;
 }
 
 .author-avatar {
   display: block;
   float: left;
   height: auto;
-  margin: 0 2rem 0 0;
+  margin: 0 2rem 1rem 0;
   width: 10rem;
 }
 .author-avatar img {
