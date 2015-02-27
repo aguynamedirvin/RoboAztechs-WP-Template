@@ -9,7 +9,7 @@
 	 */
 	if (roboaztechs_display_sidebar()) : ?>
 	
-		<?php get_template_part('templates/sidebar'); ?>
+		<?php include roboaztechs_sidebar_path(); ?>
 	
 	<?php endif; ?>
 
