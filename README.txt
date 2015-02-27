@@ -1,5 +1,1 @@
-
-
-
-/**
-	Borrowing the Roots Wordpress Framework basic idea
+Many thanks to the Roots team (http://roots.com/) for the awesome starter helper for Wordpress template creation.
