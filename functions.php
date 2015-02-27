@@ -1,5 +1,11 @@
 <?php 
 
+/**
+ * Template has many new additions (since version 0.3) from the Roots starter tamplate. Credits go to them for the
+ * awesome tool they offer to simplyfy the creation of this template.
+ * http://roots.io/
+ */
+
 
 /**
  * $content_width is a global variable used by WordPress for max image upload sizes
@@ -85,18 +91,11 @@ add_action( 'widgets_init', 'roboaztechs_widgets' );
  */
 $roboaztechs_includes = array (
 	'inc/wrapper.php',		// Theme wrapper
+	'inc/sidebar.php',		// Sidebar class
+	'inc/config.php',		// Configuration
 	'inc/widgets.php',		// Custom theme widgets
-	'inc/sidebar.php',		// Choose where sidebar is displayed
 	'inc/comments.php'		// Comment template
 );
-
-
-/**
- * ADD SUPPORT FOR SOIL
- */
-add_theme_support('soil-clean-up');			// Enable clean up from Soil
-add_theme_support('soil-relative-urls');	// Enable relative URLs from Soil
-add_theme_support('soil-nice-search');		// Enable nice search from Soil
 
 
 foreach ($roboaztechs_includes as $file) {
@@ -167,6 +166,34 @@ function roboaztechs_jquery_local_fallback($src, $handle = null) {
 }
 add_action('wp_head', 'roboaztechs_jquery_local_fallback');
 
+
+/**
+ * Google Analytics snippet from HTML5 Boilerplate
+ *
+ * Cookie domain is 'auto' configured. See: http://goo.gl/VUCHKM
+ */
+function roboaztechs_google_analytics() { ?>
+	<script>
+		<?php if (WP_ENV === 'production') : ?>
+		(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+		function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+		e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+		e.src='//www.google-analytics.com/analytics.js';
+		r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+	<?php else : ?>
+		function ga() {
+		  console.log('GoogleAnalytics: ' + [].slice.call(arguments));
+		}
+	<?php endif; ?>
+		ga('create','<?php echo GOOGLE_ANALYTICS_ID; ?>','auto');ga('send','pageview');
+	</script>
+
+<?php }
+if (GOOGLE_ANALYTICS_ID && (WP_ENV !== 'production' || !current_user_can('manage_options'))) {
+	add_action('wp_footer', 'roboaztechs_google_analytics', 20);
+}
+
+
 /**
  * CLEAN UP WORDPRESS HEAD
  */
@@ -185,6 +212,7 @@ function roboaztechs_head_cleanup() {
 	add_filter('use_default_gallery_style', '__return_null');
 }
 add_action('init', 'roboaztechs_head_cleanup');
+
 
 /**
  * CLEAN UP SHORTCODES

@@ -33,55 +33,14 @@ class roboaztechs_Sidebar {
 	$conditional_arg = is_array($conditional_tag) ? $conditional_tag[1] : false;
 	$conditional_tag = $conditional_arg ? $conditional_tag[0] : $conditional_tag;
 
-	if (function_exists($conditional_tag)) {
-			return $conditional_arg ? $conditional_tag($conditional_arg) : $conditional_tag();
+		if (function_exists($conditional_tag)) {
+		  return $conditional_arg ? $conditional_tag($conditional_arg) : $conditional_tag();
 		} else {
-			return false;
+		  return false;
 		}
 	}
 
 	private function check_page_template($page_template) {
-		return is_page_template($page_template) || roboaztechs_Wrapping::$base . '.php' === $page_template;
-	}
-}
-
-/**
- * Define which pages shouldn't have the sidebar
- *
- * See top for more details
- */
-function roboaztechs_display_sidebar() {
-	static $display;
-
-	if (!isset($display)) {
-		$sidebar_config = new roboaztechs_Sidebar(
-			/**
-			 * Any of these conditional tags that return true won't show the sidebar.
-			 * You can also specify your own custom function as long as it returns a boolean.
-			 *
-			 * To use a function that accepts arguments, use the following format:
-			 *
-			 * ['function_name', ['arg1', 'arg2']]
-			 *
-			 * Note: The second element must be an array even if there's only 1 argument.
-			 *
-			 * Examples:
-			 *
-			 * 'is_single'
-			 * 'is_archive'
-			 * ['is_page', ['about-me']]
-			 * ['is_tax', ['flavor', 'mild']]
-			 * ['is_page_template', ['about.php']]
-			 * ['is_post_type_archive', [['foo', 'bar', 'baz']]]
-			 *
-			 */
-			[
-		  		'is_404',
-		  		[ 'is_page_template', [ 'full-width', 'full-width-no-title' ]]
-			]
-		);
-		$display = apply_filters('roots/display_sidebar', $sidebar_config->result);
-	}  
-
-	return $display;
+		return is_page_template($page_template);
+		}
 }

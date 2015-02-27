@@ -1,3 +1,3 @@
-<div class="sidebar" role="complementary">
+<aside class="sidebar" role="complementary">
 	<?php dynamic_sidebar( 'right-sidebar' ); ?>
-</div>
+</aside>
