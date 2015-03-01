@@ -37,10 +37,11 @@
 			wp_nav_menu (
 			array (
 				'theme_location'	=> 'header-nav',
+				'walker'			=> new roboaztechs_Nav_Walker,
 				'container'			=> 'div',
 				'container_id'		=> 'nav-container',
 				'menu_class'		=> 'navigation',
-				'fallback_cb'		=> false
+				'fallback_cb'		=> false,
 				)
 			);
 		?>

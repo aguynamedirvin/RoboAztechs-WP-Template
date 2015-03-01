@@ -50,3 +50,11 @@ function roboaztechs_display_sidebar() {
 
 	return $display;
 }
+
+/**
+ * $content_width is a global variable used by WordPress for max image upload sizes
+ * and media embeds (in pixels).
+ */
+if ( ! isset( $content_width ) ) {
+	$content_width = 733;
+}
