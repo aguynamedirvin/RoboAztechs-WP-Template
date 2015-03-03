@@ -38,11 +38,11 @@ function roboaztechs_scripts() {
 	wp_enqueue_style( 'roboaztechs-style', get_stylesheet_uri(), array(), null );
 
 	wp_deregister_script('jquery');
-	wp_register_script('jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js', array(), '1.11.2');
+	wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js', array(), '1.11.2');
 	add_filter('script_loader_src', 'roboaztechs_jquery_local_fallback', 10, 2);
 
 	// Load FontAwesome icons.
-	wp_enqueue_style( 'font-awesome', 'http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', array(), null, 'screen'  );
+	wp_enqueue_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', array(), null, 'screen'  );
 
 	// Load our Google fonts.
 	wp_enqueue_style( 'google-fonts', roboaztechs_fonts(), array(), null );

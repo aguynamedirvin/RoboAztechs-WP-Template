@@ -56,5 +56,5 @@ function roboaztechs_display_sidebar() {
  * and media embeds (in pixels).
  */
 if ( ! isset( $content_width ) ) {
-	$content_width = 733;
+	$content_width = 1120;
 }

@@ -16,9 +16,9 @@ $roboaztechs_includes = array (
 	'inc/sidebar.php',		// Sidebar class
 	'inc/config.php',		// Configuration
 	'inc/widgets.php',		// Custom theme widgets
+	'inc/nav.php',			// Custom navigation
 	'inc/scripts.php',		// Scripts and stylesheets
 	'inc/comments.php',		// Comment template
-	'inc/nav.php',
 );
 
 foreach ($roboaztechs_includes as $file) {

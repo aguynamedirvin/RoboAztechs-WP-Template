@@ -28,24 +28,26 @@
 
 <body <?php body_class(); ?>>
 
-	<div class="strip"></div>
+	<!--<div class="strip"></div>-->
 	
-	<!-- Navigation -->
-	<nav id="site-navigation" role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
-		<div class="logo" itemtype="http://schema.org/Organization"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"></a></div>
-		<?php
-			wp_nav_menu (
-			array (
-				'theme_location'	=> 'header-nav',
-				'walker'			=> new roboaztechs_Nav_Walker,
-				'container'			=> 'div',
-				'container_id'		=> 'nav-container',
-				'menu_class'		=> 'navigation',
-				'fallback_cb'		=> false,
-				)
-			);
-		?>
-	</nav><!-- /Navigation -->
+	<?php if ( has_nav_menu( 'header-nav' ) ) : ?>
+		<!-- Navigation -->
+		<nav id="site-navigation" role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
+			<div class="logo" itemtype="http://schema.org/Organization"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"></a></div>
+			<?php
+				wp_nav_menu (
+				array (
+					'theme_location'	=> 'header-nav',
+					'walker'			=> new roboaztechs_Nav_Walker,
+					'container'			=> 'div',
+					'container_id'		=> 'nav-container',
+					'menu_class'		=> 'navigation',
+					'fallback_cb'		=> false,
+					)
+				);
+			?>
+		</nav><!-- /Navigation -->
+	<?php endif; ?>
 
 	<!-- Main Content -->
 	<main class="main">

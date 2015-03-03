@@ -1,151 +1,4 @@
 <?php
-/**
-	*
-	*	RECENT POSTS WIDGET
-	*
-**/
-class roboaztechs_recent_posts extends WP_Widget {
-
-	public function __construct() {
-		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "RoboAztechs widget for displaying your site&#8217;s most recent posts with a thumbnail.") );
-		parent::__construct(false, __('Recent Posts', 'roboaztechs'), $widget_ops);
-		$this->alt_option_name = 'widget_recent_entries';
-
-		add_action( 'save_post', array($this, 'flush_widget_cache') );
-		add_action( 'deleted_post', array($this, 'flush_widget_cache') );
-		add_action( 'switch_theme', array($this, 'flush_widget_cache') );
-	}
-
-	public function widget($args, $instance) {
-		$cache = array();
-		if ( ! $this->is_preview() ) {
-			$cache = wp_cache_get( 'widget_recent_posts', 'widget' );
-		}
-
-		if ( ! is_array( $cache ) ) {
-			$cache = array();
-		}
-
-		if ( ! isset( $args['widget_id'] ) ) {
-			$args['widget_id'] = $this->id;
-		}
-
-		if ( isset( $cache[ $args['widget_id'] ] ) ) {
-			echo $cache[ $args['widget_id'] ];
-			return;
-		}
-
-		ob_start();
-
-		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Posts', 'roboaztechs' );
-
-		/** This filter is documented in wp-includes/default-widgets.php */
-		$title = apply_filters( 'widget_title', $title, $instance, $this->id_base );
-
-		$number = ( ! empty( $instance['number'] ) ) ? absint( $instance['number'] ) : 3;
-		if ( ! $number )
-			$number = 3;
-		$show_author = isset( $instance['show_author'] ) ? $instance['show_author'] : false;
-
-		/**
-		 * Filter the arguments for the Recent Posts widget.
-		 *
-		 * @since 3.4.0
-		 *
-		 * @see WP_Query::get_posts()
-		 *
-		 * @param array $args An array of arguments used to retrieve the recent posts.
-		 */
-		$r = new WP_Query( apply_filters( 'widget_posts_args', array(
-			'posts_per_page'      => $number,
-			'no_found_rows'       => true,
-			'post_status'         => 'publish',
-			'ignore_sticky_posts' => true
-		) ) );
-
-		if ($r->have_posts()) :
-?>
-		<?php echo $args['before_widget']; ?>
-		<?php if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title'];
-		} ?>
-		<div class="widget_recent-posts">
-			<ul>
-			<?php while ( $r->have_posts() ) : $r->the_post(); ?>
-				<li>
-					<div class="article-img">
-						<a href="<?php echo get_post_permalink( get_the_ID() ); ?>">
-							<?php echo get_the_post_thumbnail( get_the_ID(), 'article-thumb' ); ?>
-						</a>
-					</div>
-					<div class="article-meta">
-						<h2><a href="<?php echo get_post_permalink( get_the_ID() ); ?>">
-							<?php get_the_title() ? the_title() : the_ID(); ?>
-						</a></h2>
-						<?php if ( $show_author ) : ?>
-							<p class="entry-meta">
-								By
-								<span class="byline author vcard">
-									<?php the_author_posts_link(); ?>
-								</span>
-							</p>
-						<?php endif; ?>
-					</div>
-				</li>
-			<?php endwhile; ?>
-			</ul>
-		</div>
-		<?php echo $args['after_widget']; ?>
-<?php
-		// Reset the global $the_post as this query will have stomped on it
-		wp_reset_postdata();
-
-		endif;
-
-		if ( ! $this->is_preview() ) {
-			$cache[ $args['widget_id'] ] = ob_get_flush();
-			wp_cache_set( 'widget_recent_posts', $cache, 'widget' );
-		} else {
-			ob_end_flush();
-		}
-	}
-
-	public function update( $new_instance, $old_instance ) {
-		$instance = $old_instance;
-		$instance['title'] = strip_tags($new_instance['title']);
-		$instance['number'] = (int) $new_instance['number'];
-		$instance['show_author'] = isset( $new_instance['show_author'] ) ? (bool) $new_instance['show_author'] : false;
-		$this->flush_widget_cache();
-
-		$alloptions = wp_cache_get( 'alloptions', 'options' );
-		if ( isset($alloptions['widget_recent_entries']) )
-			delete_option('widget_recent_entries');
-
-		return $instance;
-	}
-
-	public function flush_widget_cache() {
-		wp_cache_delete('widget_recent_posts', 'widget');
-	}
-
-	public function form( $instance ) {
-		$title     		= isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
-		$number    		= isset( $instance['number'] ) ? absint( $instance['number'] ) : 3;
-		$show_author 	= isset( $instance['show_author'] ) ? (bool) $instance['show_author'] : false;
-?>
-		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'roboaztechs' ); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
-
-		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of posts to show:', 'roboaztechs' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
-
-		<p><input class="checkbox" type="checkbox" <?php checked( $show_author ); ?> id="<?php echo $this->get_field_id( 'show_author' ); ?>" name="<?php echo $this->get_field_name( 'show_author' ); ?>" />
-		<label for="<?php echo $this->get_field_id( 'show_author' ); ?>"><?php _e( 'Display post author?', 'roboaztechs' ); ?></label></p>
-<?php
-	}
-}
-
-
 
 /**
 	*
@@ -167,22 +20,22 @@ class roboaztechs_footer_social extends WP_Widget {
 
 		// Check values
 		if( $instance) {
-			$title 		= esc_attr($instance['title']);
-			$textarea 	= esc_textarea($instance['textarea']);
+			$title		= 	esc_attr($instance['title']);
+			$textarea	=	esc_textarea($instance['textarea']);
 
-			$facebook	= 	esc_attr($instance['facebook']);
-			$twitter	= 	esc_attr($instance['twitter']);
-			$instagram	= 	esc_attr($instance['instagram']);
-			$youtube	= 	esc_attr($instance['youtube']);
+			$facebook	=	esc_attr($instance['facebook']);
+			$twitter	=	esc_attr($instance['twitter']);
+			$instagram	=	esc_attr($instance['instagram']);
+			$youtube	=	esc_attr($instance['youtube']);
 
 		} else {
-			$title 		= '';
-			$textarea 	= '';
+			$title		= '';
+			$textarea	= '';
 
-			$facebook 	= '';
-			$twitter 	= '';
+			$facebook	= '';
+			$twitter	= '';
 			$instagram 	= '';
-			$youtube 	= '';
+			$youtube	= '';
 		}
 ?>
 
@@ -249,38 +102,171 @@ class roboaztechs_footer_social extends WP_Widget {
 
 
 		echo $before_widget;
-		// Display the widget
-		echo '<div class="widget-content">';
+			// Display the widget
+			echo '<div class="widget-content">';
 
-		// Check if title is set
-		if ( $title ) {
-			echo $before_title . $title . $after_title;
-		}
+				// Check if title is set
+				if ( $title ) {
+					echo $before_title . $title . $after_title;
+				}
 
-		// Check if they are set
+				// Check if they are set
 
-		// Check if textarea is set
-		if( $textarea ) {
-			echo '<p>' . $textarea . '</p>';
-		}
+				// Check if textarea is set
+				if( $textarea ) {
+					echo '<p>' . $textarea . '</p>';
+				}
 
-		if( $facebook ) {
-			echo '<a class="ftr-scl-icon" href="' . $facebook . '"><i class="fa fa-facebook"></i></a>';
-		}
-		if( $twitter ) {
-			echo '<a class="ftr-scl-icon" href="' . $twitter . '"><i class="fa fa-twitter"></i></a>';
-		}
-		if( $instagram ) {
-			echo '<a class="ftr-scl-icon" href="' . $instagram . '"><i class="fa fa-instagram"></i></a>';
-		}
-		if( $youtube ) {
-			echo '<a class="ftr-scl-icon" href="' . $youtube . '"><i class="fa fa-youtube"></i></a>';
-		}
+				if( $facebook ) {
+					echo '<a class="ftr-scl-icon" href="' . $facebook . '"><i class="fa fa-facebook"></i></a>';
+				}
+				if( $twitter ) {
+					echo '<a class="ftr-scl-icon" href="' . $twitter . '"><i class="fa fa-twitter"></i></a>';
+				}
+				if( $instagram ) {
+					echo '<a class="ftr-scl-icon" href="' . $instagram . '"><i class="fa fa-instagram"></i></a>';
+				}
+				if( $youtube ) {
+					echo '<a class="ftr-scl-icon" href="' . $youtube . '"><i class="fa fa-youtube"></i></a>';
+				}
 
-		echo '</div>';
+			echo '</div>';
 		echo $after_widget;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Add Recent Posts Widget.
+ */
+
+
+/* ----------------------------------------------------------------------------------
+	Recent Posts
+---------------------------------------------------------------------------------- */
+
+class roboaztechs_widget_recentposts extends WP_Widget {
+
+	/* Register widget description. */
+	function roboaztechs_widget_recentposts() {
+		$widget_ops = array('classname' => 'roboaztechs_widget_recentposts', 'description' => 'Display your recent posts.' );
+		$this->WP_Widget('roboaztechs_widget_recentposts', 'RoboAztechs: Recent Posts', $widget_ops);
+	}
+
+	/* Add widget structure to Admin area. */
+	function form($instance) {
+		$default_entries = array( 
+			'title'			=> '', 
+			'postcount'		=> '3',
+			'postauthor'	=> 'on', 
+			'postDate'		=> '', 
+		);
+		$instance = wp_parse_args( (array) $instance, $default_entries );
+
+		$title		= $instance['title'];
+		$postcount	= $instance['postcount'];
+		$postauthor	= $instance['postauthor'];
+		$postDate	= $instance['postDate'];
+
+	?>
+
+		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e( 'Title:', 'roboaztechs' ); ?></label> 
+		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></p>
+
+		<p><label for="<?php echo $this->get_field_id( 'postcount' ); ?>"><?php _e( 'Number of posts to show:', 'roboaztechs' ); ?></label>
+		<input id="<?php echo $this->get_field_id( 'postcount' ); ?>" name="<?php echo $this->get_field_name( 'postcount' ); ?>" type="text" value="<?php echo $postcount; ?>" size="3" /></p>
+
+		<p><input class="checkbox" type="checkbox" <?php checked( $postauthor, "on" ); ?> id="<?php echo $this->get_field_id( 'postauthor' ); ?>" name="<?php echo $this->get_field_name( 'postauthor' ); ?>" />
+		<label for="<?php echo $this->get_field_id( 'postauthor' ); ?>"><?php _e( 'Show post author?', 'roboaztechs' ); ?></label></p>
+
+		<p><input class="checkbox" type="checkbox" <?php checked( $postDate, "on" ); ?> id="<?php echo $this->get_field_id( 'postDate' ); ?>" name="<?php echo $this->get_field_name( 'postDate' ); ?>" />
+		<label for="<?php echo $this->get_field_id( 'postDate' ); ?>"><?php _e( 'Show publish date?', 'roboaztechs' ); ?></label></p>
+
+	<?php
+	}
+
+	/* Assign variable values. */
+	function update($new_instance, $old_instance) {
+		$instance = $old_instance;
+
+		$instance['title']		= $new_instance['title'];
+		$instance['postcount']	= $new_instance['postcount'];
+		$instance['postauthor']	= $new_instance['postauthor'];
+		$instance['postDate']	= $new_instance['postDate'];
+
+		return $instance;
+	}
+
+	/* Output widget to front-end. */
+	function widget($args, $instance) {
+	global $post;
+
+		extract($args, EXTR_SKIP);
+
+		echo $before_widget;
+		$title = empty($instance['title']) ? __( 'Recent Posts', 'roboaztechs' ) : apply_filters('widget_title', $instance['title']);
+		if (!empty($title))
+			echo $before_title . $title . $after_title;
+
+
+		$posts = new WP_Query( apply_filters( 'widget_posts_args', array(
+			'posts_per_page'		=> $instance['postcount'],
+			'no_found_rows'			=> true,
+			'post_status'			=> 'publish',
+			'ignore_sticky_posts'	=> true,
+		) ));
+
+		//$posts = new WP_Query('orderby=date&posts_per_page=' . $instance['postcount'] . '');
+
+		if ($posts->have_posts()) :
+			echo '<div class="widget_recent-posts"><ul>';
+				while ($posts->have_posts()) : $posts->the_post();
+?>
+
+					<li>
+						<div class="article-img">
+							<a href="<?php echo get_permalink(); ?>" title="<?php echo get_the_title(); ?>">
+								<?php echo get_the_post_thumbnail( $post->ID, array(100, 75) ); ?>
+							</a>
+						</div>
+						<div class="article-meta">
+							<h2><a href="<?php echo get_permalink(); ?>"><?php echo get_the_title(); ?></a></h2>
+							
+							<?php if ( $instance['postauthor'] ||  $instance['postDate'] ) : ?>
+							<p class="entry-meta">
+								<?php if ( $instance['postauthor'] ) : ?>
+									By
+									<span class="byline author vcard">
+										<?php the_author_posts_link(); ?>
+									</span>
+								<?php endif; ?>
+								<?php if ( $instance['postDate'] ) : ?>
+									<time class="updated published entry-time" datetime="<?php the_time('Y-m-d'); ?>" itemprop="datePublished"> &#8212; <?php the_time(get_option('date_format')); ?></time>
+								<?php endif; ?>
+							</p>
+							<?php endif; ?>
+						</div>
+					</li>
+
+<?php
+				endwhile;
+			echo '<ul></div>', $after_widget;
+		endif;
+	}
+	 
+}	//roboaztechs_widget_recentposts end
+
+
+
 
 
 /**
@@ -289,8 +275,7 @@ class roboaztechs_footer_social extends WP_Widget {
 	*
 **/
 function roboaztechs_register_widgets() {
-	register_widget( 'roboaztechs_recent_posts' );
+	register_widget( 'roboaztechs_widget_recentposts' );
 	register_widget( 'roboaztechs_footer_social' );
 }
-
 add_action( 'widgets_init', 'roboaztechs_register_widgets' );
