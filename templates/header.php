@@ -22,8 +22,6 @@
 	
 	<?php wp_head(); ?>
 
-
-
 </head>
 
 <body <?php body_class(); ?>>
@@ -50,4 +48,4 @@
 	<?php endif; ?>
 
 	<!-- Main Content -->
-	<main class="main">
+	<div class="main">

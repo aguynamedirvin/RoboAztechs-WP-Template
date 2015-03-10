@@ -1,4 +1,4 @@
-	</main><!-- /Main -->
+	</div><!-- /Main -->
 	
 	<div class="strip"></div>
 	
@@ -16,7 +16,7 @@
 		<div class="footer-note">
 			<div class="wrap">
 				<div class="siteinfo">
-					&#169; 2013 - 2014 Company Name. All Rights Reserved.
+					&#169; 2013 - 2015 <?php bloginfo( $show ); ?>. All Rights Reserved.
 				</div>
 				<div class="footer-navigation">
 					<?php
