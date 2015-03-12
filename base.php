@@ -11,9 +11,11 @@
 
 	</div>
 
+
+
 	<?php 
 	/**
-	 * Display sidebar is it's not on functions.php
+	 * Display sidebar on page is not on functions.php
 	 */
 	if (roboaztechs_display_sidebar()) : ?>
 	

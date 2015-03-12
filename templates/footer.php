@@ -16,20 +16,24 @@
 		<div class="footer-note">
 			<div class="wrap">
 				<div class="siteinfo">
-					&#169; 2013 - 2015 <?php bloginfo( $show ); ?>. All Rights Reserved.
+					&#169; <?php echo '2014 - ', date('Y'), ' ', bloginfo( $name ); ?>. All Rights Reserved.
 				</div>
-				<div class="footer-navigation">
-					<?php
-						wp_nav_menu (
-						array (
-							'theme_location'	=> 'footer-nav',
-							'container'			=> false,
-							'fallback_cb'		=> false,
-							'depth'				=> -1
-							)
-						);
-					?>
-				</div>
+
+				<?php if ( has_nav_menu( 'footer-navigation' ) ) : ?>
+					<div class="footer-navigation">
+						<?php
+							wp_nav_menu (
+							array (
+								'theme_location'	=> 'footer-nav',
+								'container'			=> false,
+								'fallback_cb'		=> false,
+								'depth'				=> -1
+								)
+							);
+						?>
+					</div>
+				<?php endif; ?>
+				
 			</div>
 		</div><!-- /Website Info -->
 

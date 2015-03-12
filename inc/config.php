@@ -4,14 +4,14 @@
 /**
  * ADD SUPPORT FOR SOIL
  */
-add_theme_support('soil-clean-up');			// Enable clean up from Soil
-add_theme_support('soil-relative-urls');	// Enable relative URLs from Soil
-add_theme_support('soil-nice-search');		// Enable nice search from Soil
-
+add_theme_support('soil-clean-up');					// Enable clean up from Soil
+add_theme_support('soil-relative-urls');			// Enable relative URLs from Soil
+add_theme_support('soil-nice-search');				// Enable nice search from Soil
+add_theme_support('soil-disable-asset-versioning');	// Disable 'ver' query string from all styles and scripts from Soil
 /**
  * Configuration values
  */
-define('GOOGLE_ANALYTICS_ID', ''); // UA-XXXXX-Y (Note: Universal Analytics only, not Classic Analytics)
+define('GOOGLE_ANALYTICS_ID', 'UA-19072260-21'); // UA-XXXXX-Y (Note: Universal Analytics only, not Classic Analytics)
 
 /**
  * Define which pages shouldn't have the sidebar

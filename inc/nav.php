@@ -18,7 +18,7 @@ class roboaztechs_Nav_Walker extends Walker_Nav_Menu {
 	}
 
 	// If has dropdown
-	function start_lvl(&$output, $depth = 0, $args = array()) {
+	/*function start_lvl(&$output, $depth = 0, $args = array()) {
 		$output .= "\n<ul class=\"dropdown-menu\">\n";
 	}
 
@@ -39,8 +39,8 @@ class roboaztechs_Nav_Walker extends Walker_Nav_Menu {
 
 		$item_html = apply_filters('roboaztechs/wp_nav_menu_item', $item_html);
 		$output .= $item_html;
-	}
-		function display_element($element, &$children_elements, $max_depth, $depth = 0, $args, &$output) {
+	} */
+	function display_element($element, &$children_elements, $max_depth, $depth = 0, $args, &$output) {
 		$element->is_dropdown = ((!empty($children_elements[$element->ID]) && (($depth + 1) < $max_depth || ($max_depth === 0))));
 
 		if ($element->is_dropdown) {

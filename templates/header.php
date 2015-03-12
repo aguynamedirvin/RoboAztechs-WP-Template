@@ -15,7 +15,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 	
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
-
 	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 	
 	<?php if ( is_singular() && get_option( 'thread_comments' ) ) wp_enqueue_script( 'comment-reply' ); ?>
@@ -26,8 +25,6 @@
 
 <body <?php body_class(); ?>>
 
-	<!--<div class="strip"></div>-->
-	
 	<?php if ( has_nav_menu( 'header-nav' ) ) : ?>
 		<!-- Navigation -->
 		<nav id="site-navigation" role="navigation" itemscope itemtype="http://schema.org/SiteNavigationElement">
@@ -37,8 +34,7 @@
 				array (
 					'theme_location'	=> 'header-nav',
 					'walker'			=> new roboaztechs_Nav_Walker,
-					'container'			=> 'div',
-					'container_id'		=> 'nav-container',
+					'container' 		=> false,
 					'menu_class'		=> 'navigation',
 					'fallback_cb'		=> false,
 					)
