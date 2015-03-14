@@ -18,7 +18,7 @@ $roboaztechs_includes = array (
 	'inc/widgets.php',		// Custom theme widgets
 	'inc/nav.php',			// Custom navigation
 	'inc/scripts.php',		// Scripts and stylesheets
-	'inc/comments.php',		// Comment template
+	'inc/comments.php',		// Comments template
 );
 
 foreach ($roboaztechs_includes as $file) {
@@ -28,7 +28,6 @@ foreach ($roboaztechs_includes as $file) {
 	require_once $filepath;
 }
 unset($file, $filepath);
-
 
 /**
  * CLEAN UP WORDPRESS HEAD

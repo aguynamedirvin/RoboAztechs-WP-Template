@@ -5,6 +5,10 @@
  * Google Analytics is loaded after enqueued scripts if:
  * - An ID has been defined in config.php
  * - You're not logged in as an administrator
+ *
+ * jQuery is loaded from Google CDN. If it fails
+ * to load it will fallback to a local copy of jQuery 
+ *
  */
 
 
@@ -14,11 +18,13 @@
 function roboaztechs_fonts() {
 	$font_url = '';
 	if ( wp_is_mobile() ) {
+		// For mobile use
 		$query_args = array(
 			'family' => urlencode( 'Oswald:400' ),
 			'subset' => urlencode( 'latin,latin-ext' ),
 		);
 	} else {
+		// For desktop use
 		$query_args = array(
 			'family' => urlencode( 'Open+Sans:400|Crimson+Text:400italic|Oswald:400' ),
 			'subset' => urlencode( 'latin,latin-ext' ),
@@ -37,6 +43,7 @@ function roboaztechs_scripts() {
 	// Load our main stylesheet.
 	wp_enqueue_style( 'roboaztechs-style', get_stylesheet_uri(), array(), null );
 
+	// Load our jQuery
 	wp_deregister_script('jquery');
 	wp_register_script('jquery', '//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js', array(), '1.11.2');
 	add_filter('script_loader_src', 'roboaztechs_jquery_local_fallback', 10, 2);
@@ -45,7 +52,10 @@ function roboaztechs_scripts() {
 	wp_enqueue_style( 'font-awesome', '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', array(), null, 'screen'  );
 
 	// Load our script for the navigation menu
-	wp_enqueue_script( 'navigation', get_template_directory_uri() . '/js/navigation.min.js', array('jquery'), null, true );
+	wp_enqueue_script( 'navigation', get_template_directory_uri() . 'assets/js/navigation.min.js', array('jquery'), null, true );
+
+	// Load our fastclik.js script
+	wp_enqueue_script( 'fastclick', get_template_directory_uri() . 'assets/js/fastclick.min.js', array('jquery'), null, true );
 	
 	// Load our Google fonts.
 	wp_enqueue_style( 'google-fonts', roboaztechs_fonts(), array(), null );
@@ -53,6 +63,10 @@ function roboaztechs_scripts() {
 add_action('wp_enqueue_scripts', 'roboaztechs_scripts', 100);
 //add_action('template_redirect', 'roboaztechs_scripts');
 
+/**
+ * IF LOADING JQUERY FROM GOOGLE CDN FAILS
+ * THEN FALLBACK TO LOCAL JQUERY
+ */
 // http://wordpress.stackexchange.com/a/12450
 function roboaztechs_jquery_local_fallback($src, $handle = null) {
 		static $add_jquery_fallback = false;
@@ -93,3 +107,20 @@ function roboaztechs_google_analytics() { ?>
 if (GOOGLE_ANALYTICS_ID && (WP_ENV !== 'production' || !current_user_can('manage_options'))) {
 	add_action('wp_footer', 'roboaztechs_google_analytics', 20);
 }
+
+
+/**
+ * Add neccesary JavaScript to the head
+ */
+function roboaztechs_head_js () { ?>
+	<script>
+		// fastclick.js
+		jQuery(document).ready(function($) {
+			$(function() {
+				FastClick.attach(document.body);
+			});
+		});
+	</script>
+<?php 
+}
+add_action('wp_head', 'roboaztechs_head_js');
