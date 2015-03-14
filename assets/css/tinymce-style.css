@@ -1,0 +1,173 @@
+html {
+	font-size: 62.5%; 
+}
+body {
+	font-family: Arial;
+	font-size: 1.5em;
+}
+img, figure {
+	height: auto;
+	max-width: 100%; 
+}
+
+
+/** Headings **/
+h1 {
+	font-size: 5rem; 
+}
+h2 {
+	font-size: 4.2rem; 
+}
+h3 {
+	font-size: 3.6rem; 
+}
+h4 {
+	font-size: 3rem; 
+}
+h5 {
+	font-size: 2.4rem; 
+}
+h6 {
+	font-size: 1.5rem; 
+}
+		
+/** Grid **/
+.wrap {
+	width: 100%;
+	overflow: hidden;
+}
+.col-1 {
+width: 4.8076923077%;
+float: left;
+margin-right: 3.8461538462%; 
+}
+	.col-1:last-of-type {
+		margin: 0; 
+	}
+
+.col-2 {
+	width: 13.4615384615%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-2:last-of-type {
+		margin: 0; 
+	}
+.col-3 {
+	width: 22.1153846154%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-3:last-of-type {
+		margin: 0; 
+	}
+.col-4 {
+	width: 30.7692307692%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-4:last-of-type {
+		margin: 0; 
+	}
+.col-5 {
+	width: 39.4230769231%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-5:last-of-type {
+		margin: 0; 
+	}
+.col-6 {
+	width: 48.0769230769%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-6:last-of-type {
+		margin: 0; 
+	}
+.col-7 {
+	width: 56.7307692308%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-7:last-of-type {
+		margin: 0; 
+	}
+.col-8 {
+	width: 65.3846153846%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-8:last-of-type {
+		margin: 0; 
+	}
+.col-9 {
+	width: 74.0384615385%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-9:last-of-type {
+		margin: 0; 
+	}
+.col-10 {
+	width: 82.6923076923%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-10:last-of-type {
+		margin: 0; 
+	}
+.col-11 {
+	width: 91.3461538462%;
+	float: left;
+	margin-right: 3.8461538462%; 
+}
+	.col-11:last-of-type {
+		margin: 0; 
+	}
+.col-12 {
+	width: 100%;
+	float: left;
+	margin-left: 0;
+	margin-right: 0; 
+}
+	.col-12:last-of-type {
+		margin: 0; 
+	}
+
+
+/** Wordpress Required **/
+.aligncenter {
+	margin: 0 auto;
+	display: block; }
+
+.wp-caption {
+	position: relative; }
+
+.wp-caption.alignright, .wp-caption.footer-navigation {
+	margin: 7px 0 7px 28px; }
+
+.wp-caption.alignleft, .wp-caption.siteinfo {
+	margin: 7px 28px 7px 0; }
+
+.wp-caption img {
+	border: 0;
+	display: inline-block;
+	height: auto;
+	margin: 0;
+	max-width: 100%;
+	padding: 0;
+	vertical-align: bottom;
+	width: auto; }
+
+.wp-caption-text {
+	background-color: rgba(0, 0, 0, 0.6);
+	bottom: 0;
+	color: #ffffff;
+	font-size: 1.2rem;
+	font-weight: bold;
+	left: 0;
+	margin: 0;
+	padding: 7px 14px;
+	position: absolute;
+	width: 100%; }
