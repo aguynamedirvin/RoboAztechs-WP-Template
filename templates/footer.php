@@ -16,10 +16,10 @@
 		<div class="footer-note">
 			<div class="wrap">
 				<div class="siteinfo">
-					&#169; <?php echo '2014 - ', date('Y'), ' ', bloginfo( $name ); ?>. All Rights Reserved.
+					&#169; <?php echo '2014 - ' . date('Y') . ' ' . bloginfo( $name ); ?>. All Rights Reserved.
 				</div>
 
-				<?php if ( has_nav_menu( 'footer-navigation' ) ) : ?>
+				<?php if ( has_nav_menu( 'footer-nav' ) ) : ?>
 					<div class="footer-navigation">
 						<?php
 							wp_nav_menu (
@@ -27,7 +27,7 @@
 								'theme_location'	=> 'footer-nav',
 								'container'			=> false,
 								'fallback_cb'		=> false,
-								'depth'				=> -1
+								'depth'				=> -1,
 								)
 							);
 						?>
